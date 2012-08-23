@@ -55,6 +55,8 @@
             utils.each(data, function(o, i, r) {
                 utils.each(o, function(o, i, r) {
                     var len = utils.getLength(o);
+                    var titleLen = utils.getLength(i);
+                    len = len > titleLen ? len : titleLen;
                     if(!that.meta[i] || len > that.meta[i]) {
                         that.meta[i] = len;
                     }
@@ -66,6 +68,7 @@
             var that = this;
             var lineLen, lineStr;
             var tmpStr;
+            var titleStr;
 
             that.init();
             that.genMeta(data);
@@ -75,6 +78,15 @@
             console.log(lineLen);
 
             utils.each(data, function(o, i, r) {
+                if(!titleStr) {
+                    that.echo(lineStr + '\n');
+                    utils.each(o, function(o, i, r) {
+                        tmpStr = '| ' + utils.fill(i, that.meta[i]) + ' ';
+                        that.echo(tmpStr);
+                    });
+                    that.echo('|\n');
+                    titleStr = true;
+                }
                 that.echo(lineStr + '\n');
                 utils.each(o, function(o, i, r) {
                     tmpStr = '| ' + utils.fill(o, that.meta[i]) + ' ';
